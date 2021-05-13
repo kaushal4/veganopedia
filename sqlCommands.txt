@@ -1,0 +1,73 @@
+create table user(
+    username varchar(255) not null,
+    pass varchar(255) not null,
+    constraint PK_user primary key (username)
+)
+
+create table place (
+	placeName varchar(255) not null,
+    pincode mediumint,
+    state varchar(255),
+    city varchar(255),
+    road varchar(255),
+    rating tinyint,
+    photos varchar(255),
+    username varchar(255),
+    constraint pincode_check check(pincode >= 000000 and pincode <=999999),
+    constraint rating_check_place check(rating in (1,2,3,4,5)),
+    constraint PK_place primary key (placeName),
+    constraint FK_place_user foreign key(username) references user(username)
+);
+
+insert into place (placeName,pincode,state,city,rating,username)
+values ("Vegan noodle place",400101,"Maharastra","mumbai",4,"kaushal");
+
+create table place_food(
+	food_name varchar(255) not null,
+    ingredients varchar(255),
+    constraint PK_place_food  primary key(food_name)
+)
+
+alter table place_food
+add column placeName varchar(255);
+
+alter table place_food
+add constraint KF_food_place foreign key(placeName) references place(placeName);
+
+create table reciepies(
+	reciepies_name varchar(255) not null primary key,
+    instructions text,
+    username varchar(255),
+    constraint FK_reciepies_user foreign key(username) references user(username)
+);
+
+create table comment_place(
+	username varchar(255) not null,
+    placeName varchar(255) not null,
+    commentPlace varchar(255) not null,
+    rating tinyint not null,
+    constraint rating_check_comment_place check(rating in (1,2,3,4,5)),
+    constraint FK_user_comment_place foreign key(username) references user(username),
+    constraint FK_place_comment_place foreign key(placeName) references place(placeName),
+    constraint PK_comment_place primary key(username,placeName)
+);
+
+create table comment_recipies(
+	username varchar(255) not null,
+    reciepies_name varchar(255) not null,
+    commentRecipies varchar(255) not null,
+    rating tinyint not null,
+    constraint rating_check_comment_recipies check(rating in (1,2,3,4,5)),
+    constraint FK_user_comment_recipies foreign key(username) references user(username),
+    constraint FK_recipies_comment_recipies foreign key(reciepies_name) references reciepies(reciepies_name),
+    constraint PK_comment_recipies primary key(username,reciepies_name)
+);
+
+create table userChat(
+	username1 varchar(255) not null,
+    username2 varchar(255) not null,
+    chatHistory text,
+    constraint foreign key(username1) references user(username),
+    constraint foreign key(username2) references user(username),
+    constraint PK_char primary key(username1,username2)
+);

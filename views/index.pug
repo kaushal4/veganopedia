@@ -1,0 +1,30 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="./stylesheets/style.css")
+        title Pug
+    body
+        h1 Hello There
+        p.
+            This is a paragraph tag
+            and this is a newline haha!
+        ul
+            li#1 Hello there 1
+            li#2 Hello there 2
+            li#3 Hello there 3
+        input#hello(type="password", name="hello" data=`${5>2?"works":"dosent work"}`)
+
+        - const myClasses = ["class1","class2","class3"] 
+        div(class=myClasses)
+
+
+        - const myStyles = {"color":"red"}
+        div(style=myStyles) Hello There styled div
+        
+        - const myAttributes = {"title":"myPhoto.png","alt":"This is my Photo"}
+        div&attributes(myAttributes)
+
+
