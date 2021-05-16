@@ -1,0 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin-top: calc(1.5em + 5vh);
+  background-color: hsl(161, 16%, 43%);
+}

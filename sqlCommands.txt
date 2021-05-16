@@ -25,14 +25,13 @@ values ("Vegan noodle place",400101,"Maharastra","mumbai",4,"kaushal");
 create table place_food(
 	food_name varchar(255) not null,
     ingredients varchar(255),
-    constraint PK_place_food  primary key(food_name)
-)
+    placeName varchar(255),
+    constraint KF_food_place foreign key(placeName) references place(placeName),
+    constraint PK_place_food  primary key(food_name,placeName)
+);
 
 alter table place_food
-add column placeName varchar(255);
-
-alter table place_food
-add constraint KF_food_place foreign key(placeName) references place(placeName);
+drop column ingredients;
 
 create table reciepies(
 	reciepies_name varchar(255) not null primary key,

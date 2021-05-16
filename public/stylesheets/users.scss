@@ -1,0 +1,41 @@
+.user-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0 3em;
+  .place-container,
+  .recipie-container {
+    border-bottom: 0.3em solid hsl(120, 63%, 38%);
+    h1 {
+      height: 30vh;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      div {
+        margin-left: 1em;
+        span:nth-of-type(2) {
+          margin: 1em;
+        }
+      }
+    }
+  }
+  .place-container {
+    border-right: 0.3em solid hsl(120, 63%, 38%);
+    padding-right: 1em;
+    h1 {
+      background-image: url("../images/restuarant.jpg");
+      background-position: center;
+      color: aliceblue;
+    }
+    .add-more {
+      float: right;
+    }
+  }
+  .recipie-container {
+    padding-left: 1em;
+    h1 {
+      background-image: url("../images/pizza.jpg");
+      background-position: center;
+      background-size: cover;
+    }
+  }
+}

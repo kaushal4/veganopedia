@@ -1,0 +1,46 @@
+.user-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0 3em;
+}
+.user-container .place-container,
+.user-container .recipie-container {
+  border-bottom: 0.3em solid #249e24;
+}
+.user-container .place-container h1,
+.user-container .recipie-container h1 {
+  height: 30vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.user-container .place-container h1 div,
+.user-container .recipie-container h1 div {
+  margin-left: 1em;
+}
+.user-container .place-container h1 div span:nth-of-type(2),
+.user-container .recipie-container h1 div span:nth-of-type(2) {
+  margin: 1em;
+}
+.user-container .place-container {
+  border-right: 0.3em solid #249e24;
+  padding-right: 1em;
+}
+.user-container .place-container h1 {
+  background-image: url("../images/restuarant.jpg");
+  background-position: center;
+  color: aliceblue;
+}
+.user-container .place-container .add-more {
+  float: right;
+}
+.user-container .recipie-container {
+  padding-left: 1em;
+}
+.user-container .recipie-container h1 {
+  background-image: url("../images/pizza.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+/*# sourceMappingURL=users.css.map */

@@ -1,0 +1,46 @@
+.navbar {
+  height: 5vh;
+  background-color: hsl(138, 43%, 55%);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.2em;
+  border-bottom: 0.5em solid hsl(120, 63%, 38%);
+  h3 {
+    height: 1.5em;
+    display: flex;
+    align-items: center;
+    span {
+      flex-grow: 1;
+      text-align: center;
+    }
+  }
+  .right-items {
+    > * {
+      margin: 0 1em;
+    }
+  }
+}
+#login-button,
+#logout-button {
+  padding: 0.1em 0.4em;
+  margin-right: 1em;
+}
+#login-forms {
+  margin-right: 2em;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.close-svg {
+  height: 100%;
+  width: 17px;
+}
