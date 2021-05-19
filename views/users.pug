@@ -1,6 +1,5 @@
 head
     title veganopedia: #{name}
-    link(rel="stylesheet", href="/stylesheets/index.css")
     link(rel="stylesheet", href="/stylesheets/users.css")
 include ./partials/header.pug
 body 
@@ -8,27 +7,55 @@ body
         p=error
     else if(success)
         p=success
+    .toggle-container
+        span#restaurants-button.active Restaurants
+        .horizontal-line
+        span#reciepies-button Recipes
     .user-container
-        .place-container
+        .places-container
             h1
                 div
-                    span your
+                    span Your
                     br 
-                    span places
+                    span Restaurants
             div
                 form.add-more(action="/forms/place" method="GET")
-                    button add
+                    button Add
             each val,key in queryPlaceObject
-                .places-container 
+                .place-container 
                     -let src = val.photos?val.photos:"/images/default.jpg";
-                    img(src=src, alt="The image could not be loaded")
-                    h4=val.placeName
-                    form(action=`/place`, method="GET")
-                        input(type="hidden", name="placeName" value=val.placeName)
-                        button(type="submit") view more
-        .recipie-container
+                    figure
+                        img(src=src, alt="The image could not be loaded")
+                    .info
+                        h4=val.placeName
+                        h5 Rating : #{val.rating}
+                        h5 Pincode : #{val.pincode}
+                    .actions
+                        form(action=`/place/${val.placeName}`, method="GET")
+                            button.view-more-button(type="submit") View More
+                        button.delete-button Delete
+                        button.edit-button Edit
+        .recipies-container
             h1
                 div 
-                    span your
+                    span Your
                     br 
-                    span recipies
+                    span Recipes
+            div
+                form.add-more(action="/forms/reciepie" method="GET")
+                    button Add
+            each val,key in reciepieSearchQuery
+                .reciepie-container 
+                    -let src = val.photos?val.photos:"/images/default.jpg";
+                    figure
+                        img(src=src, alt="The image could not be loaded")
+                    .info
+                        h4=val.reciepies_name
+                        h5 Rating: #{val.rating}
+                    .actions
+                        form(action=`/reciepie/${val.reciepies_name}`, method="GET")
+                            button.view-more-button(type="submit") View more
+                        button.delete-button Delete
+                        button.edit-button Edit
+    script(src="/javascripts/users.js") 
+include ./partials/footer.pug

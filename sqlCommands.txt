@@ -70,3 +70,16 @@ create table userChat(
     constraint foreign key(username2) references user(username),
     constraint PK_char primary key(username1,username2)
 );
+
+alter table reciepies
+add column photos varchar(255);
+
+alter table reciepies
+add column rating tinyint;
+
+alter table reciepies
+add constraint rating_check_reciepies check(rating in (1,2,3,4,5));
+
+
+alter table reciepies
+add column commentNum int;

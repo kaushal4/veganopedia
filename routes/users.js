@@ -8,7 +8,11 @@ router.get("/", checkAuthenticated, async function (req, res, next) {
   const placeSearchResult = await asyncCon.query(
     `select * from place where(username = "${user.username}" )`
   );
-  console.log(placeSearchResult);
+
+  const reciepieSearchQuery = await asyncCon.query(
+    `select * from reciepies where(username = "${user.username}")`
+  );
+  console.log(reciepieSearchQuery);
   let dbObject = { success: null, error: null };
   if (req.query.success) {
     dbObject = { ...dbObject, success: req.query.success };
@@ -20,12 +24,12 @@ router.get("/", checkAuthenticated, async function (req, res, next) {
     ...dbObject,
     queryPlaceObject: placeSearchResult,
     placeCount: placeSearchResult.length,
+    reciepieSearchQuery: reciepieSearchQuery,
   });
 });
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    console.log("here");
     return next();
   }
   return res.redirect("/");

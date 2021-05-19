@@ -22,13 +22,13 @@ router.post("/place", checkAuthenticated, async function (req, res) {
     req.body["city"] ? "city," : ""
   } ${req.body["state"] ? "state," : ""} ${
     req.body["photo"] ? "photos," : ""
-  }pincode,username,rating) values("${req.body["placeName"]}",${
+  }pincode,username,rating,commentNum) values("${req.body["placeName"]}",${
     req.body["road"] ? `"${req.body["road"]}",` : ""
   } ${req.body["city"] ? `"${req.body["city"]}",` : ""} ${
     req.body["state"] ? `"${req.body["state"]}",` : ""
   } ${req.body["photo"] ? `"${req.body["photo"]}",` : ""} ${
     req.body["pincode"]
-  },"${user.username}",${req.body["rating"]})`;
+  },"${user.username}",${req.body["rating"]},1)`;
   try {
     const addPlacesResult = await asyncCon.query(sql);
   } catch (err) {
@@ -37,7 +37,6 @@ router.post("/place", checkAuthenticated, async function (req, res) {
     });
     res.redirect("/users/?" + query);
   }
-  console.log(foodItems);
   foodItems.forEach(async (element) => {
     placeFoodSql = `insert into place_food(food_name,placeName) values("${element}","${req.body["placeName"]}")`;
     try {
@@ -59,6 +58,54 @@ router.post("/place", checkAuthenticated, async function (req, res) {
     });
     res.redirect("/users/?" + query);
   }
+});
+
+router.post("/reciepie", checkAuthenticated, async function (req, res) {
+  let error = "no error";
+  const user = await req.user;
+  const instructions = [];
+  let instructionsString = "";
+  const re = new RegExp("^insturction[0-9]*");
+  for (const property in req.body) {
+    if (re.test(property) && req.body[property]) {
+      instructions.push(req.body[property]);
+      instructionsString += req.body[property] + ",";
+    }
+  }
+  const sql = `insert into reciepies(reciepies_name,${
+    req.body["photos"] ? "photos," : ""
+  } instructions,username,rating,commentNum) values("${
+    req.body["reciepies_name"]
+  }",${
+    req.body["photos"] ? `"${req.body["photos"]}",` : ""
+  }  "${instructionsString}","${user.username}",${req.body["rating"]},1)`;
+  try {
+    const addReciepieResult = await asyncCon.query(sql);
+  } catch (err) {
+    console.log(err);
+    const query = querystring.stringify({
+      error: "Failed To add Reciepie.The reciepie might already be added.",
+    });
+    res.redirect("/users/?" + query);
+    return;
+  }
+  if (error === "no error") {
+    const query = querystring.stringify({
+      success: "Reciepie  added successfully!!",
+    });
+    res.redirect("/users/?" + query);
+  } else {
+    const query = querystring.stringify({
+      error:
+        "failed to add some food Items please check the reciepie in your dashboard.",
+    });
+    res.redirect("/users/?" + query);
+  }
+});
+
+router.get("/reciepie", checkAuthenticated, async function (req, res) {
+  const user = await req.user;
+  res.render("forms/reciepie", { name: user.username });
 });
 
 function checkAuthenticated(req, res, next) {

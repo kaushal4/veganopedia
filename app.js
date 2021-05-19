@@ -17,6 +17,7 @@ var usersRouter = require("./routes/users");
 var loginRouter = require("./routes/login");
 const formRouter = require("./routes/forms");
 const placeRouter = require("./routes/place");
+const reciepieRouter = require("./routes/reciepie");
 var app = express();
 
 // view engine setup
@@ -63,6 +64,7 @@ app.use("/login", loginRouter);
 app.use("/users", usersRouter);
 app.use("/forms", formRouter);
 app.use("/place", placeRouter);
+app.use("/reciepie", reciepieRouter);
 
 //database debug code
 
