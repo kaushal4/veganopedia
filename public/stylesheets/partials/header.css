@@ -138,9 +138,20 @@
 }
 
 .errorMessages {
+  margin: auto;
   width: 80%;
   background-color: #c68787;
   border: 2px solid #d32e2e;
+  display: flex;
+  justify-content: center;
+  padding: 0.3em 0.5em;
+}
+
+.successMessages {
+  margin: auto;
+  width: 80%;
+  background-color: #7dcf8b;
+  border: 2px solid #38d452;
   display: flex;
   justify-content: center;
   padding: 0.3em 0.5em;

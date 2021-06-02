@@ -12,7 +12,6 @@ router.get("/", checkAuthenticated, async function (req, res, next) {
   const reciepieSearchQuery = await asyncCon.query(
     `select * from reciepies where(username = "${user.username}")`
   );
-  console.log(reciepieSearchQuery);
   let dbObject = { success: null, error: null };
   if (req.query.success) {
     dbObject = { ...dbObject, success: req.query.success };
@@ -26,6 +25,10 @@ router.get("/", checkAuthenticated, async function (req, res, next) {
     placeCount: placeSearchResult.length,
     reciepieSearchQuery: reciepieSearchQuery,
   });
+});
+
+router.get("/chat", (req, res) => {
+  res.render("chat.pug");
 });
 
 function checkAuthenticated(req, res, next) {

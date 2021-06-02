@@ -1,4 +1,5 @@
 var express = require("express");
+const querystring = require("querystring");
 var router = express.Router();
 const { asyncCon } = require("../db");
 
@@ -120,6 +121,28 @@ router.put("/:reciepies_name/comment", checkAuthenticated, async (req, res) => {
   }
   console.log(commentUpdateSql);
   res.redirect(`/reciepie/${req.params.reciepies_name}`);
+});
+router.delete("/:reciepies_name", checkAuthenticated, async (req, res) => {
+  const sqlComments = `delete from comment_recipies where(reciepies_name="${req.params.reciepies_name}")`;
+  const sqlReciepe = `delete from reciepies where(reciepies_name="${req.params.reciepies_name}")`;
+  let query = "";
+  try {
+    await asyncCon.query(sqlComments);
+    await asyncCon.query(sqlReciepe);
+  } catch (err) {
+    console.log(err);
+    query = querystring.stringify({
+      error: "Can not delete recipie",
+    });
+  }
+  console.log(query);
+  if (query == "") {
+    query = querystring.stringify({
+      success: "reciepie deleted successfully",
+    });
+  }
+  console.log(query);
+  res.redirect("/users?" + query);
 });
 
 function checkAuthenticated(req, res, next) {

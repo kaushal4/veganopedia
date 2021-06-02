@@ -3,7 +3,8 @@ var router = express.Router();
 
 /* GET home page. */
 router.get("/", checkNotAuthenticated, function (req, res, next) {
-  res.render("index", { title: "Hey", message: "Hello there!" });
+  console.log(req.query);
+  res.render("index", { error: req.query.error, success: req.query.success });
 });
 
 function checkNotAuthenticated(req, res, next) {

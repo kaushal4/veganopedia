@@ -4,7 +4,8 @@ head
 include ../partials/header.pug
 body
     .form-container
-        form(action="/forms/reciepie" method="POST")
+        form(action="/forms/reciepie" method="POST" onsubmit="return formSubmitHandler(event)")
+            h1 Add Recipe 
             div
                 label(for="reciepies_name") Name of Reciepie
                 input(type="text" placeholder="Reciepie name" name="reciepies_name" required)
@@ -26,6 +27,6 @@ body
                     button#food-options-button(type="button") submit
             button(type="submit") submit
     script(src="/javascripts/forms/reciepie.js")
-include ./partials/footer.pug
+include ../partials/footer.pug
             
 

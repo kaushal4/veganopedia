@@ -113,12 +113,29 @@
   display: grid;
   grid-template: "a b b b" auto "a b b b" auto "a c c c" auto/1.2fr 1fr 1fr 1fr;
 }
+@media screen and (max-width: 900px) {
+  .place-container,
+.reciepie-container {
+    grid-template: "a" auto "b" auto "c" auto/100%;
+  }
+  .place-container > *,
+.reciepie-container > * {
+    margin: 0.5em 0;
+  }
+}
 .place-container figure,
 .reciepie-container figure {
   grid-area: a;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media screen and (max-width: 900px) {
+  .place-container figure,
+.reciepie-container figure {
+    align-self: center;
+    justify-self: center;
+  }
 }
 .place-container figure img,
 .reciepie-container figure img {
@@ -139,14 +156,35 @@
   align-items: flex-end;
   justify-content: flex-end;
 }
+@media screen and (max-width: 900px) {
+  .place-container .actions,
+.reciepie-container .actions {
+    justify-content: center;
+    width: 100%;
+  }
+  .place-container .actions form,
+.reciepie-container .actions form {
+    margin: 0;
+  }
+}
 .place-container .actions > *,
 .reciepie-container .actions > * {
   margin: 0 1em;
 }
 .place-container .actions button,
 .reciepie-container .actions button {
+  height: 30px;
   font-size: 1.1em;
   padding: 0.3em 0.6em;
+}
+@media screen and (max-width: 900px) {
+  .place-container .actions button,
+.reciepie-container .actions button {
+    width: fit-content;
+    margin: 0 1em;
+    font-size: 0.8em;
+    padding: 0.1em 0.5em;
+  }
 }
 .place-container .actions .view-more-button,
 .reciepie-container .actions .view-more-button {

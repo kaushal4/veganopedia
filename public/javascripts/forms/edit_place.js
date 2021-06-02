@@ -1,5 +1,5 @@
-let value = 0;
-let i = 1;
+let value = $(".present-items").length;
+let i = value + 1;
 $("#food-options-button").click(() => {
   value = value + parseInt($("#food-options").val());
   if (value <= 0) {
@@ -19,8 +19,14 @@ $("#food-options-button").click(() => {
     input.placeholder = `food item ${i}`;
     label.for = "item" + i;
     label.innerHTML = `Food Item ${i}`;
+    let input2 = document.createElement("input");
+    input2.type = "text";
+    input2.name = `item${i}`;
+    input2.placeholder = `food item ${i}`;
+    input2.style.display = "none";
     div.appendChild(label);
     div.appendChild(input);
+    div.appendChild(input2);
     document.getElementById("food-container").appendChild(div);
   }
 });
@@ -37,7 +43,7 @@ function formSubmitHandler(event) {
   console.log(url);
   if (!urlRegex.test(url) && url.length != 0) {
     error = "Please enter a valid url for the photo";
-    submitFlag = true;
+    submitFlag = false;
   } else if (!pincodeRegex.test(pincode)) {
     error = "Please enter a valid pincode";
     submitFlag = false;

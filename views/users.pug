@@ -4,9 +4,9 @@ head
 include ./partials/header.pug
 body 
     if(error)
-        p=error
+        p.errorMessages=error
     else if(success)
-        p=success
+        p.successMessages=success
     .toggle-container
         span#restaurants-button.active Restaurants
         .horizontal-line
@@ -33,8 +33,10 @@ body
                     .actions
                         form(action=`/place/${val.placeName}`, method="GET")
                             button.view-more-button(type="submit") View More
-                        button.delete-button Delete
-                        button.edit-button Edit
+                        form(action=`/place/${val.placeName}?_method=DELETE`, method="POST")
+                            button.delete-button Delete
+                        form(action=`/place/${val.placeName}/edit`, method="GET")
+                            button.edit-button Edit
         .recipies-container
             h1
                 div 
@@ -55,7 +57,9 @@ body
                     .actions
                         form(action=`/reciepie/${val.reciepies_name}`, method="GET")
                             button.view-more-button(type="submit") View more
-                        button.delete-button Delete
-                        button.edit-button Edit
+                        form(action=`/reciepie/${val.reciepies_name}?_method=DELETE`, method="POST")
+                            button.delete-button Delete
+                        form(action=`/reciepie/${val.reciepies_name}`, method="GET")
+                            button.edit-button Edit
     script(src="/javascripts/users.js") 
 include ./partials/footer.pug

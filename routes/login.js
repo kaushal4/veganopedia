@@ -25,16 +25,14 @@ const passport = require("passport");
 // });
 
 router.post("/register", async (req, res) => {
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  sql = `insert into user values("${req.body.username}","${hashedPassword}")`;
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    sql = `insert into user values("${req.body.username}","${hashedPassword}")`;
-    con.query(sql, (err, result) => {
-      if (err) throw err;
-      res.redirect("/users");
-    });
+    await asyncCon.query(sql);
+    res.redirect(`/?success=you are successfully registered`);
   } catch (err) {
     console.log(err);
-    res.redirect("/");
+    res.redirect(`/?error=Registration failed. try another username`);
   }
 });
 

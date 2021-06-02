@@ -9,6 +9,7 @@ $("#register-button").click(() => {
   $("#register-form").addClass("fadeIn");
 });
 $("#register-form .close-svg").click(() => {
+  $("#password-correction").css({ display: "none" });
   $("#register-form").removeClass("fadeIn");
   $("#register-form").addClass("fadeOut");
   setTimeout(() => {
@@ -16,6 +17,7 @@ $("#register-form .close-svg").click(() => {
   }, 500);
 });
 $("#login-form .close-svg").click(() => {
+  $("#password-correction").css({ display: "none" });
   $("#login-form").removeClass("fadeIn");
   $("#login-form").addClass("fadeOut");
   setTimeout(() => {
@@ -30,3 +32,19 @@ $("#logout-button").click(() => {
     return false;
   });
 });
+
+function onSubmitHandlerPassword(event) {
+  const passRegexChar = new RegExp("[A-Za-z]+");
+  const passRegexNum = new RegExp("[0-9]+");
+  const pass = $("#register-password").val();
+  if (passRegexChar.test(pass) && passRegexNum.test(pass) && pass.length >= 8) {
+    return true;
+  } else {
+    event.preventDefault();
+    $("#passwordMessage").html(
+      "The password must be </br> 8 characters and contain </br>one alphabet and number"
+    );
+    $("#password-correction").css({ display: "inline-block" });
+    return false;
+  }
+}

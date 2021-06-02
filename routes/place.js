@@ -1,4 +1,5 @@
 var express = require("express");
+const querystring = require("querystring");
 var router = express.Router();
 const { asyncCon } = require("../db");
 
@@ -130,6 +131,119 @@ router.put("/:placeName/comment", checkAuthenticated, async (req, res) => {
   }
   console.log(commentUpdateSql);
   res.redirect(`/place/${req.params.placeName}`);
+});
+
+//edit routes
+
+router.get("/:placeName/edit", checkAuthenticated, async (req, res) => {
+  const user = await req.user;
+  const placeSql = `select * from place where(placeName = "${req.params.placeName}")`;
+  const itemsSql = `select food_name from place_food where(placeName = "${req.params.placeName}")`;
+  try {
+    const placeDetails = await asyncCon.query(placeSql);
+    const itemDetails = asyncCon.query(itemsSql);
+    res.render("forms/place_edit.pug", {
+      placeDetails: placeDetails[0],
+      itemDetails: await itemDetails,
+      name: user.username,
+    });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/users");
+  }
+});
+
+router.put("/:placeName/edit", checkAuthenticated, async (req, res) => {
+  console.log(req.body);
+  let error = false;
+  let sqlUpdateQuery = "update place set ";
+  const propArray = [];
+  const itemArray = [];
+  for (const key in req.body) {
+    if (key[0] == "f") continue;
+    if (key[0] == "i") {
+      itemArray.push(
+        req.body[key][0] == "" ? req.body[key][1] : req.body[key][0]
+      );
+    } else {
+      if (req.body[key] != "" && req.body[key] != "0") {
+        propArray.push([key, req.body[key]]);
+      }
+    }
+  }
+  console.log(itemArray);
+  if (propArray.length > 0) {
+    sqlUpdateQuery += `${propArray[0][0]}="${propArray[0][1]}"`;
+    propArray.splice(0, 1);
+    propArray.forEach((element) => {
+      console.log(element);
+      sqlUpdateQuery += `,${element[0]}="${element[1]}"`;
+    });
+  }
+  sqlUpdateQuery += ` where (placeName="${req.params.placeName}")`;
+  console.log(sqlUpdateQuery);
+  try {
+    await asyncCon.query(sqlUpdateQuery);
+  } catch (err) {
+    console.log(err);
+    error = true;
+  }
+  try {
+    const deleteSql = `delete from place_food where (placeName="${req.params.placeName}")`;
+    await asyncCon.query(deleteSql);
+    const promises = itemArray.map((element) => {
+      let itemSql = `insert into place_food(food_name,placeName) values("${element}","${req.params.placeName}")`;
+      return asyncCon.query(itemSql);
+    });
+    Promise.all(promises);
+  } catch (err) {
+    error = true;
+    console.log(err);
+  }
+  let query = "";
+  if (error) {
+    query = querystring.stringify({
+      error: "Few Items where not updated",
+    });
+  } else {
+    query = querystring.stringify({
+      success: "Successfully Updated the place",
+    });
+  }
+  res.redirect("/users?" + query);
+});
+
+router.delete("/:placeName", checkAuthenticated, async (req, res) => {
+  const sqlComments = `delete from comment_place where(placeName="${req.params.placeName}")`;
+  const sqlFood = `delete from place_food where(placeName="${req.params.placeName}")`;
+  const sqlPlace = `delete from place where(placeName="${req.params.placeName}")`;
+  try {
+    const removeFromDependentTable = [
+      asyncCon.query(sqlComments),
+      asyncCon.query(sqlFood),
+    ];
+    Promise.all(removeFromDependentTable);
+  } catch (err) {
+    console.log(err);
+    console.log("error in removing from dependent table");
+    const query = querystring.stringify({
+      error: "Failed to delete the place",
+    });
+    res.redirect("/users?" + query);
+  }
+  try {
+    await asyncCon.query(sqlPlace);
+    const query = querystring.stringify({
+      success: "Successfully deleted the place",
+    });
+    res.redirect("/users?" + query);
+  } catch (err) {
+    console.log(err);
+    const query = querystring.stringify({
+      error: "Failed to deleted the place",
+    });
+    res.redirect("/users?" + query);
+  }
 });
 
 function checkAuthenticated(req, res, next) {

@@ -4,7 +4,7 @@ head
 include ../partials/header.pug
 body
     form(action="", method="get" onsubmit="return formSubmitHandler(event)")
-        p search by:
+        p Search Restaurants
         div
             label(for="PlaceName") Name of restaurant
             input(type="text" placeholder="restaurant name" name="placeName")
@@ -27,10 +27,16 @@ body
         button(type="submit") Search!
     if(queryResult)
         each val,index in queryResult
-            .place-container
-                h1=val.placeName
-                h3=val.rating 
-                form(action="/place/"+val.placeName, method="get")
-                    button(type="submit") more info
+            .place-container 
+                -let src = val.photos?val.photos:"/images/default.jpg";
+                figure
+                    img(src=src, alt="The image could not be loaded")
+                .info
+                    h4=val.placeName
+                    h5 Rating : #{val.rating}
+                    h5 Pincode : #{val.pincode}
+                .actions
+                    form(action=`/place/${val.placeName}`, method="GET")
+                        button.view-more-button(type="submit") View More
     script(src="/javascripts/search/place.js")
-include ./partials/footer.pug 
+include ../partials/footer.pug 

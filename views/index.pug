@@ -3,6 +3,10 @@ head
     link(rel="stylesheet", href="stylesheets/home.css")
 include ./partials/header.pug
 body
+    if(error)
+        p.errorMessages=error
+    else if(success)
+        p.successMessages=success
     figure
         img(src="/images/homepage/title.jpg", alt="Title image")
     .landing-container

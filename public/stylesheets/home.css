@@ -5,13 +5,19 @@ body > figure {
   justify-content: center;
 }
 figure > img {
-  width: 100%;
+  height: 90vh;
+}
+@media screen and (max-width: 850px) {
+  figure > img {
+    height: auto;
+    width: 100%;
+  }
 }
 .landing-container {
   padding: 1em;
-  border: 2px solid #91d451;
+  border: 2px solid #9bc3c3;
   background-color: #094754;
-  color: #91d451;
+  color: #9bc3c3;
   width: 80%;
   margin: 1em auto;
   display: grid;
@@ -34,7 +40,7 @@ figure > img {
   text-align: center;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1110px) {
   .landing-container {
     grid-template-columns: 1fr;
     width: 90%;

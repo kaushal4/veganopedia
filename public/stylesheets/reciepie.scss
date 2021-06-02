@@ -28,6 +28,10 @@ $green6: #052e5c;
     figure {
       grid-column: 2;
       grid-row: 1/1;
+      img {
+        width: 100%;
+        object-fit: contain;
+      }
     }
     #info-container {
       font-size: 1.5em;

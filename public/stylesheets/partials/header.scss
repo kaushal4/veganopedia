@@ -140,9 +140,20 @@ $green6: #052e5c;
 }
 
 .errorMessages {
+  margin: auto;
   width: 80%;
   background-color: #c68787;
   border: 2px solid rgb(211, 46, 46);
+  display: flex;
+  justify-content: center;
+  padding: 0.3em 0.5em;
+}
+
+.successMessages {
+  margin: auto;
+  width: 80%;
+  background-color: rgb(125, 207, 139);
+  border: 2px solid rgb(56, 212, 82);
   display: flex;
   justify-content: center;
   padding: 0.3em 0.5em;

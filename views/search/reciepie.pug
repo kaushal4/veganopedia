@@ -1,6 +1,6 @@
 head
     title veganopedia: #{name}
-    link(rel="stylesheet", href="/stylesheets/search/reciepie.css")
+    link(rel="stylesheet", href="/stylesheets/search/recipie.css")
 include ../partials/header.pug
 body
     form(action="", method="get" onsubmit="return formSubmitHandler(event)")
@@ -21,10 +21,15 @@ body
         button(type="submit") Search!
     if(queryResult)
         each val,index in queryResult
-            .place-container
-                h1=val.reciepies_name
-                h3=val.rating 
-                form(action="/reciepie/"+val.reciepies_name, method="get")
-                    button(type="submit") more info
+            .reciepie-container 
+                    -let src = val.photos?val.photos:"/images/default.jpg";
+                    figure
+                        img(src=src, alt="The image could not be loaded")
+                    .info
+                        h4=val.reciepies_name
+                        h5 Rating: #{val.rating}
+                    .actions
+                        form(action=`/reciepie/${val.reciepies_name}`, method="GET")
+                            button.view-more-button(type="submit") View more
     script(src="/javascripts/search/reciepie.js")
-include ./partials/footer.pug
+include ../partials/footer.pug
